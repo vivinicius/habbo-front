@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@keyframes fade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade {
+  animation: fade .2s ease-out;
+}
+
+@font-face {
+  font-family: "Habbo";
+  src: url("/fonts/HabboFont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Upheaval";
+  src: url("/fonts/upheavtt.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.habbo-3d {
+  font-family: "Upheaval", sans-serif;
+  color: #f7c737;
+
+  transform: scaleX(0.85
+  ); /* <-- aqui você controla o "achatamento" */
+  display: inline-block;   /* obrigatório para o transform funcionar */
+
+  text-shadow:
+    -2px -2px 0 #5a3e21,
+     2px -2px 0 #5a3e21,
+    -2px  2px 0 #5a3e21,
+     2px  2px 0 #5a3e21,
+     0px  4px 0 #7a5328,
+     0px  6px 0 #3f260f;
+}
+
+.btn-habbo-back {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: transform .1s ease;
+}
+
+/* triângulo maior, proporcional ao texto habbo */
+.btn-habbo-back .arrow {
+  width: 0;
+  height: 0;
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  border-right: 20px solid #6b5b4a; /* cor do triângulo */
+  filter: drop-shadow(2px 2px 0 #3f2e20); /* sombra pixel Habbo */
+}
+
+.btn-habbo-back:hover {
+  transform: translateX(-2px); /* leve movimento, estilo Habbo */
+}
+
+.btn-habbo-back:hover .arrow {
+  border-right-color: #9a958c; /* cinza claro elegante */
+  filter: drop-shadow(2px 2px 0 #6b6760); /* sombra cinza */
+}
+
+@font-face {
+  font-family: "Minecraft";
+  src: url("/fonts/Minecraft.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.minecraft-text {
+  font-family: "Minecraft", sans-serif;
+  letter-spacing: 1.5px;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.15s ease-out;
+}
+
+/* Tooltip estilo Habbo */
+.habbo-tooltip {
+  @apply hidden absolute -top-10 left-1/2 -translate-x-1/2 
+    bg-[#fff8e8] border-[3px] border-[#d9b97a] 
+    text-[#6b5b4a] text-xs px-3 py-1 rounded 
+    shadow-[0_3px_0_#b09055] whitespace-nowrap z-50;
+}
+
+.group:hover .habbo-tooltip {
+  display: flex;
+}
