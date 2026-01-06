@@ -140,6 +140,53 @@ function Home() {
         ))}
       </div>
 
+      {/* MODAL EXCLUIR JOGO */}
+{modalExcluir && (
+  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div
+      className="
+        bg-[#fff8e8] border-[4px] border-[#d9b97a]
+        rounded-xl shadow-[0_6px_0_#b09055]
+        p-6 w-[330px] animate-scaleIn
+        flex flex-col items-center text-center
+      "
+    >
+      <h2 className="text-3xl habbo-3d mb-4">
+        Confirmar
+      </h2>
+
+      <p className="text-[#6b5b4a] mb-6">
+        Tem certeza que deseja excluir<br />
+        <strong>{modalExcluir.nome}</strong>?
+      </p>
+
+      <div className="flex justify-center gap-4 w-full">
+        <button
+          onClick={() => setModalExcluir(null)}
+          className="
+            flex-1 bg-[#7fa7e0] border border-[#5c7eb0] text-white
+            py-2 rounded shadow-[0_3px_0_#54739e]
+            hover:translate-y-[1px]
+          "
+        >
+          Cancelar
+        </button>
+
+        <button
+          onClick={confirmarExcluir}
+          className="
+            flex-1 bg-[#e57373] border border-[#b94f4f] text-white
+            py-2 rounded shadow-[0_3px_0_#a23c3c]
+            hover:translate-y-[1px]
+          "
+        >
+          Excluir
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       {/* DIVISÃO */}
       <div className="max-w-3xl mx-auto my-12 border-t-4 border-[#d9b97a] shadow-[0_3px_0_#b09055]" />
 
