@@ -28,14 +28,34 @@ function Jogo() {
   const Moeda = () => <span className="ml-1">💰</span>;
 
 useEffect(() => {
-  carregarJogo(); // carrega na primeira vez
+  carregarJogo();
 
-  const interval = setInterval(() => {
-    carregarJogo(); // recarrega a cada X segundos
-  }, 5000); // ⏱️ 5 segundos (ideal)
+  const interval = setInterval(async () => {
+    await carregarJogo();
+    await atualizarMovimentacoesAbertas(); // 🔥 AQUI
+  }, 5000);
 
-  return () => clearInterval(interval); // limpa ao sair da tela
+  return () => clearInterval(interval);
 }, []);
+
+const atualizarMovimentacoesAbertas = async () => {
+  const abertas = Object.entries(movsAbertas)
+    .filter(([_, aberta]) => aberta)
+    .map(([jogadorId]) => jogadorId);
+
+  for (const jogadorId of abertas) {
+    try {
+      const res = await api.get(`/jogadores/${jogadorId}/movimentacoes`);
+      setMovsJogadores((prev) => ({
+        ...prev,
+        [jogadorId]: res.data,
+      }));
+    } catch (err) {
+      console.error("Erro ao atualizar movimentações", err);
+    }
+  }
+};
+
 
   const carregarJogo = async () => {
     try {
