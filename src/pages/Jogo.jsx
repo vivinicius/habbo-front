@@ -581,7 +581,7 @@ const atualizarMovimentacoesAbertas = async () => {
         {/* DIREITA — PAINÉIS */}
         {/* ============================ */}
         <div className="w-[40%] flex flex-col gap-10 mt-14">
-          <h2 className="text-4xl habbo-3d mb-2 text-center">Gerenciar</h2>
+          
 
           {/* INFORMAÇÕES DO JOGO */}
           <div className="bg-[#fff8e8] p-6 rounded-xl border-[3px] border-[#d9b97a] shadow-[0_3px_0_#b09055]">
@@ -624,17 +624,7 @@ const atualizarMovimentacoesAbertas = async () => {
   </div>
 </div>
 
-            {isAdmin && (
-            <p className="mt-3 text-[#6b5b4a]">
-              Ganhador: <strong>{jogo.lucroGanhador}<Moeda /></strong>
-            </p>
-            )}
-
-            {isAdmin && (
-            <p className="text-[#6b5b4a]">
-              Host: <strong>{jogo.lucroHost}<Moeda /></strong>
-            </p>
-            )}
+            
           </div>
 
           {/* ADICIONAR JOGADOR */}
