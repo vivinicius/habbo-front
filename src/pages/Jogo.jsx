@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../auth/AuthContext";
@@ -7,6 +7,7 @@ import AuthButton from "../components/AuthButton";
 function Jogo() {
   const { jogoId } = useParams();
   const { isAdmin } = useAuth();
+  const movsAbertasRef = useRef({});
 
   const navigate = useNavigate();
 
@@ -27,19 +28,24 @@ function Jogo() {
 
   const Moeda = () => <span className="ml-1">💰</span>;
 
+  useEffect(() => {
+  movsAbertasRef.current = movsAbertas;
+}, [movsAbertas]);
+
 useEffect(() => {
   carregarJogo();
 
   const interval = setInterval(async () => {
     await carregarJogo();
-    await atualizarMovimentacoesAbertas(); // 🔥 AQUI
+    await atualizarMovimentacoesAbertas();
   }, 5000);
 
   return () => clearInterval(interval);
 }, []);
 
+
 const atualizarMovimentacoesAbertas = async () => {
-  const abertas = Object.entries(movsAbertas)
+  const abertas = Object.entries(movsAbertasRef.current)
     .filter(([_, aberta]) => aberta)
     .map(([jogadorId]) => jogadorId);
 
