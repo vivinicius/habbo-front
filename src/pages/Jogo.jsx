@@ -27,9 +27,15 @@ function Jogo() {
 
   const Moeda = () => <span className="ml-1">💰</span>;
 
-  useEffect(() => {
-    carregarJogo();
-  }, []);
+useEffect(() => {
+  carregarJogo(); // carrega na primeira vez
+
+  const interval = setInterval(() => {
+    carregarJogo(); // recarrega a cada X segundos
+  }, 5000); // ⏱️ 5 segundos (ideal)
+
+  return () => clearInterval(interval); // limpa ao sair da tela
+}, []);
 
   const carregarJogo = async () => {
     try {
@@ -510,7 +516,7 @@ function Jogo() {
                                   <span className="text-red-600 ml-1">(PAGUE x2)</span>
                                 )}
                               </div>
-
+                              {isAdmin && (
                               <button
                                 onClick={() =>
                                   setModalExcluirMov({
@@ -524,6 +530,7 @@ function Jogo() {
                               >
                                 ✖
                               </button>
+                              )}
                             </li>
                           ))}
                         </ul>
@@ -552,12 +559,35 @@ function Jogo() {
             </p>
 
             <p className="text-[#6b5b4a] mb-2">
-              Total acumulado: <strong>{jogo.totalSemValorPremio}<Moeda /></strong>
+              Total pagues: <strong>{jogo.totalSemValorPremio}<Moeda /></strong>
             </p>
 
-            <p className="mt-3 p-3 bg-[#ffeebc] border border-[#d9b97a] rounded shadow">
-              Valor do Pague: <strong>{jogo.valorPagamentoRodada}<Moeda /></strong>
+            <p className="text-[#6b5b4a] mb-2">
+              Total acumulado: <strong>{jogo.totalSemValorPremio+jogo.valorInicial}<Moeda /></strong>
             </p>
+
+{/* BLOCO DE VALORES */}
+<div className="mt-4">
+  <h3 className="text-lg font-semibold mb-3 text-[#6b5b4a]">
+    Valores
+  </h3>
+
+  <div className="space-y-3">
+    <p className="p-3 bg-[#ffeebc] border border-[#d9b97a] rounded shadow">
+      Pague: <strong>{jogo.valorPagamentoRodada}<Moeda /></strong>
+    </p>
+
+    <p className="p-3 bg-[#66CDAA] border border-[#5F9EA0] rounded shadow">
+      Entrar (Início):{" "}
+      <strong>{Math.round(jogo.valorPagamentoRodada * 2)}<Moeda /></strong>
+    </p>
+
+    <p className="p-3 bg-[#F08080] border border-[#CD5C5C] rounded shadow">
+      Entrar (Final):{" "}
+      <strong>{Math.round(jogo.valorPagamentoRodada * 2.5)}<Moeda /></strong>
+    </p>
+  </div>
+</div>
 
             {isAdmin && (
             <p className="mt-3 text-[#6b5b4a]">
