@@ -8,8 +8,14 @@ function Movimentacoes() {
   const [movs, setMovs] = useState([]);
 
   useEffect(() => {
-    carregarMovs();
-  }, []);
+  carregarMovs(); // carrega na primeira vez
+
+  const interval = setInterval(() => {
+    carregarMovs(); // recarrega a cada X segundos
+  }, 5000); // ⏱️ 5 segundos (ideal)
+
+  return () => clearInterval(interval); // limpa ao sair da tela
+}, []);
 
   const carregarMovs = async () => {
     const res = await api.get(
