@@ -3,8 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../auth/AuthContext";
 import AuthButton from "../components/AuthButton";
+import Ganhador from "./Ganhador";
 
 function Jogo() {
+  const [ganhadorSelecionado, setGanhadorSelecionado] = useState("");
+  const [mostrarTelaGanhador, setMostrarTelaGanhador] = useState(false);
+
   const { jogoId } = useParams();
   const { isAdmin } = useAuth();
   const movsAbertasRef = useRef({});
@@ -27,6 +31,11 @@ function Jogo() {
   const [valorEntrada, setValorEntrada] = useState("");
 
   const Moeda = () => <span className="ml-1">💰</span>;
+
+  const fecharTelaGanhador = () => {
+  setMostrarTelaGanhador(false);
+  setGanhadorSelecionado(""); // 🔥 reset importante
+};
 
   useEffect(() => {
   movsAbertasRef.current = movsAbertas;
@@ -673,9 +682,57 @@ const atualizarMovimentacoesAbertas = async () => {
             </button>
           </div>
           )}
-        </div>
 
+          {/* DEFINIR GANHADOR */}
+{isAdmin && (
+  <div className="bg-[#fff8e8] p-5 rounded-xl border-[3px] border-[#d9b97a] shadow-[0_3px_0_#b09055]">
+    <h2 className="text-xl font-semibold mb-3 text-[#6b5b4a]">
+      Definir Ganhador
+    </h2>
+
+    <label className="block text-sm mb-2 text-[#6b5b4a]">
+      Selecione o jogador
+    </label>
+
+    <select
+      value={ganhadorSelecionado}
+      onChange={(e) => setGanhadorSelecionado(e.target.value)}
+      className="w-full p-2 border border-[#d9b97a] rounded bg-[#fffdf8] mb-4"
+    >
+      <option value="">Selecione...</option>
+      {jogo.jogadores.map((j) => (
+        <option key={j.id} value={j.id}>
+          {j.nomeJogador}
+        </option>
+      ))}
+    </select>
+
+    <button
+      disabled={!ganhadorSelecionado}
+      onClick={() => setMostrarTelaGanhador(true)}
+      className={`
+        w-full py-2 rounded
+        ${
+          ganhadorSelecionado
+            ? "bg-[#8ecd8a] border border-[#6cab68] text-white shadow-[0_3px_0_#558c55]"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }
+      `}
+    >
+      OK
+    </button>
+  </div>
+)}
+        </div>
       </div>
+      {mostrarTelaGanhador && (
+<Ganhador
+  jogadorId={ganhadorSelecionado}
+  jogadores={jogo.jogadores}
+  totalPagues={jogo.totalSemValorPremio}
+  onClose={fecharTelaGanhador}
+/>
+)}
     </div>
   );
 }
